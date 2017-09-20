@@ -1,0 +1,23 @@
+Power Scheduler for Slackware Linux.
+
+Allows setting up times for automatic wakeup and shutdown of your Slackware
+box. Will only work on a mobo with functional Real Time Clock unit (rtc).
+To verify your machive is equipped with rtc call 
+ls /dev/rtc*
+from terminal. If you see /dev/rtc0, you are good. If not, you are out
+of luck, sorry.
+
+Building:
+Run ./power-scheduler.SlackBuild as root from the source directory.
+
+Installing:
+Use standard Slackware tools: installpkg, upgradepkg, pkgtool.
+For example: sudo installpkg /tmp/power-scheduler-1.0.0-noarch-1_SBo.tgz
+
+Configuration:
+1. Make sure /etc/rc.d/rc.local_shutdown is executable.
+   sudo chmod +x /etc/rc.d/rc.local_shutdown
+   It should also consist of a call to /usr/local/sbin/wakeup.
+2. Set shutdown times by editing /etc/cron.d/shutdown-schedule.
+   That is standard crontab file. Refer to man crontab for the instructions.
+3. Set wakup times in /etc/wakeup-schedule.conf.

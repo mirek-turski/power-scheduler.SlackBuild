@@ -1,0 +1,5 @@
+# Shutdown scheduler
+# On Sunday to Thursday shutdown at 23:45
+#45 23 * * 0-4 root /sbin/shutdown -h now
+# On Friday and Saturday keep on untill 1:00
+#0 1 * * 6-7 root /sbin/shutdown -h now

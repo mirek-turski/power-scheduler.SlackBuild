@@ -1,0 +1,42 @@
+#!/bin/sh
+
+CONF_FILE=/etc/wakeup-schedule.conf
+NOW=$((`date +%s`))
+ALL_TIMES=()
+
+# Get all times as defined in $CONF_FILE
+if [ -e $CONF_FILE ]; then
+  while read line; do
+    case "$line" in
+      Mon*|Tue*|Wed*|Thu*|Fri*|Sat*|Sun*|mon*|tue*|wed*|thu*|fri*|sat*|sun*)
+        TIME=$((`date +%s -d "$line"`))
+        ALL_TIMES=( ${ALL_TIMES[@]} $TIME )
+        ;;
+      *)
+        continue;;
+    esac
+  done < "$CONF_FILE"
+fi
+
+# Sort the times ascending
+ALL_TIMES_SORTED=( $(for el in "${ALL_TIMES[@]}"; do echo "$el"; done | sort -n) )
+
+# Find first value greater than current time
+for time in ${ALL_TIMES_SORTED[@]}; do
+  if [ $time -gt $NOW ]; then
+    WAKEUP_TIME=$time
+    break
+  fi
+done
+
+if [ -z "$WAKEUP_TIME" ]; then
+  echo "No next wakeup time found in $CONF_FILE"
+  exit
+fi
+
+# Erase all RTC alarms, if existant (rtcwake -m disabable doesn't work)
+echo 0 > /sys/class/rtc/rtc0/wakealarm
+/usr/bin/logger -t wakeup -s "Setting next wakeup time on `date -d @$WAKEUP_TIME`"
+# Set wakeup time
+/usr/sbin/rtcwake --auto --mode no --time $WAKEUP_TIME 1> /dev/null
+        

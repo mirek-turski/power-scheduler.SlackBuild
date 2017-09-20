@@ -1,0 +1,27 @@
+#!/bin/sh
+
+PRGNAM=power-scheduler
+
+ARCH=noarch
+
+VERSION=1.0.0
+BUILD=${BUILD:-1}
+TAG=${TAG:-_SBo}
+
+CWD=$(pwd)
+TMP=${TMP:-/tmp}
+PKG=$TMP/package-$PRGNAM
+OUTPUT=${OUTPUT:-/tmp}
+
+rm -rf $PKG
+mkdir -p $TMP $PKG $OUTPUT
+cd $PKG
+cp -r "${CWD}"/package/* "${PKG}" || exit 1
+
+mv "${PKG}"/etc/wakeup-schedule.conf{,.new}
+mv "${PKG}"/etc/rc.d/rc.local_shutdown{,.new}
+mv "${PKG}"/etc/cron.d/shutdown-schedule{,.new}
+
+cd $PKG
+/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.tgz
+ 

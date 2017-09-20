@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Schedule auto-wakeup.
+# See /etc/wakeup.conf for wakeup time definitions
+/usr/local/sbin/wakeup

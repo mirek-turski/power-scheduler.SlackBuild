@@ -1,0 +1,12 @@
+                 |-----handy-ruler------------------------------------------------------|
+auto-power-on-off: Auto Power on/off
+auto-power-on-off:
+auto-power-on-off: Provides power on-off function based on predefined schedule.
+auto-power-on-off: Auto-shutdown is achieved with cron definitions in
+auto-power-on-off: /etc/cron.d/shutdown-schedule.
+auto-power-on-off: Automatic wakeup times can be configured in /etc/wakeup.conf.
+auto-power-on-off:
+auto-power-on-off:
+auto-power-on-off:
+auto-power-on-off:
+auto-power-on-off:
